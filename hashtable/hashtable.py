@@ -21,6 +21,9 @@ class HashTable:
     """
 
     def __init__(self, capacity):
+        self.capacity = capacity
+        self.bucket = [None] * capacity
+        self.size = 0
         # Your code here
 
 
@@ -35,6 +38,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        return len(self.bucket)
 
 
     def get_load_factor(self):
@@ -44,6 +48,8 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        print(len(self.bucket)/self.capacity)
+        return len(self.bucket)/self.capacity
 
 
     def fnv1(self, key):
@@ -54,6 +60,12 @@ class HashTable:
         """
 
         # Your code here
+        FNV_prime = 1099511628211
+        hash = 14695981039346656037
+        for e in key:
+            hash = hash * FNV_prime
+            hash = hash^ord(e)
+        return hash
 
 
     def djb2(self, key):
@@ -71,7 +83,7 @@ class HashTable:
         between within the storage capacity of the hash table.
         """
         #return self.fnv1(key) % self.capacity
-        return self.djb2(key) % self.capacity
+        return self.fnv1(key) % self.capacity
 
     def put(self, key, value):
         """
@@ -82,6 +94,17 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        index = self.hash_index(key)
+        hash_index = self.bucket[index]
+        while hash_index != None and hash_index != key:
+            hash_index = hash_index.next
+        if hash_index != None:
+            hash_index.value = value
+        else:
+            new_item = HashTableEntry(key, value)
+            new_item.next = self.bucket[index]
+            self.bucket[index] = new_item
+            print(new_item)
 
 
     def delete(self, key):
@@ -93,6 +116,17 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        index = self.hash_index(key)
+        hash = self.bucket[index]
+        while hash != None:
+            if hash.key == key:
+                hash.value = None
+                return
+            else:
+                hash = hash.next
+        print("Key not in HashTable")
+        return
+
 
 
     def get(self, key):
@@ -104,6 +138,13 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        index = self.hash_index(key)
+        hash = self.bucket[index]
+        while hash != None:
+            if hash.key == key:
+                return hash.value
+            else:
+                hash = hash.next
 
 
     def resize(self, new_capacity):
