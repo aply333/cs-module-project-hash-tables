@@ -13,3 +13,4 @@ def f(x):
 
 # Your code here
 
+def find_equivilants(q):

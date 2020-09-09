@@ -1,7 +1,13 @@
 def no_dups(s):
     # Your code here
-
-
+    array = s.split(" ")
+    storage = {}
+    new_arr=[]
+    for x in array:
+        if x not in storage:
+            new_arr.append(x)
+        storage[x]=x
+    return " ".join(new_arr)
 
 if __name__ == "__main__":
     print(no_dups(""))

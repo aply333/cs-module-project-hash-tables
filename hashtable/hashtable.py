@@ -54,7 +54,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        print(self.size/self.capacity)
+        # print(self.size/self.capacity)
         return self.size/self.capacity
 
 
@@ -112,7 +112,7 @@ class HashTable:
             new_entry.next = self.bucket[index]
             self.bucket[index] = new_item
             self.size+=1
-            print(new_item.value)
+            # print(new_item.value)
 
 
     def delete(self, key):
